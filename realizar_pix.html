@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Realizar Operação de Pix</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Realizar Operação de Pix</h1>
+
+    <!-- Campo para a Chave Pix -->
+    <label for="chavePix">Chave Pix:</label>
+    <input type="text" id="chavePix" placeholder="Digite a chave Pix">
+    <br><br>
+
+    <!-- Campo para o Valor do Pix -->
+    <label for="valorPix">Valor do Pix:</label>
+    <input type="text" id="valorPix" placeholder="Digite o valor do Pix">
+    <br><br>
+
+    <!-- Botão para realizar a operação -->
+    <button id="realizarPixBtn">Realizar Pix</button>
+    <p id="resultado"></p>
+    <br><br>
+
+    <a href="index.html">Voltar para a Página Inicial</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#realizarPixBtn').click(function() {
+                const chavePix = $('#chavePix').val();
+                const valorPix = parseFloat($('#valorPix').val());
+                
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/realizar_pix',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ chave: chavePix, valor: valorPix }),
+                    success: function(response) {
+                        $('#resultado').text(response.message + " - Chave: " + response.chave + ", Valor: " + response.valor);
+                    },
+                    error: function(response) {
+                        $('#resultado').text(response.responseJSON.message);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

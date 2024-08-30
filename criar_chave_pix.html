@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Criar Chave Pix</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Criar Chave Pix</h1>
+    <label for="chavePix">Chave Pix:</label>
+    <input type="text" id="chavePix" placeholder="Digite a chave Pix">
+    <button id="criarChaveBtn">Criar chave Pix</button>
+    <p id="resultado"></p>
+    <br><br>
+    <a href="index.html">Voltar para a Página Inicial</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#criarChaveBtn').click(function() {
+                const chavePix = $('#chavePix').val();
+                
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/criar_chave_pix',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ chave: chavePix }),
+                    success: function(response) {
+                        $('#resultado').text(response.message);
+                    },
+                    error: function(response) {
+                        $('#resultado').text(response.responseJSON.message);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
